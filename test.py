@@ -4,6 +4,9 @@ from user import User
 from gift import Gift
 from kiosk import Kiosk
 
+# How many of this gift the canteen has on the shelf.
+MYSTOCK = 25
+
 class TestUser(unittest.TestCase):
   def testUser(self):
     user = User('056B15E3247C81', '2024-04-01', 100)
@@ -84,6 +87,23 @@ class TestKiosk(unittest.TestCase):
     result = Kiosk().redeem(user, Gift('ruler', 25))
     self.assertTrue(result)
     self.assertEqual(user.points, 0)
+
+  # R7 - no stock left: refused, and nothing changes.
+  def testGiftOutOfStock(self):
+    self.answer('yes')
+    user = FakeUser(100)
+    result = Kiosk().redeem(user, Gift('ruler', 25, stock=0))
+    self.assertFalse(result)
+    self.assertEqual(user.points, 100)
+    self.assertFalse(user.saved)
+
+  # R7 - a successful redemption takes one off the shelf.
+  def testStockGoesDown(self):
+    self.answer('yes')
+    user = FakeUser(100)
+    gift = Gift('ruler', 25, stock=MYSTOCK)
+    Kiosk().redeem(user, gift)
+    self.assertEqual(gift.stock, MYSTOCK - 1)
 
 if __name__ == '__main__':
   unittest.main()
