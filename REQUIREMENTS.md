@@ -10,5 +10,7 @@ R4  Only the answer "yes" confirms. Anything else cancels.
 R5  On success the points are reduced by the cost, and the user record is
     updated.
 R6  In every other case nothing changes and the kiosk reports failure.
+R7  Every gift has a STOCK COUNT. A gift with no stock left cannot be
+    redeemed; on success the stock goes down by one.
 
 That is the whole brief. Anything not written here has not been asked for.
