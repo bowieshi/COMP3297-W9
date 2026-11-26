@@ -6,7 +6,7 @@ class Kiosk:
     if user.isValid():
       if user.points >= gift.points:
         confirm = input(f'Redeem {gift.name} for {gift.points} points?')
-        if confirm == "yes":
+        if confirm.strip().lower() == "yes":
           # R5: take the points and update the record
           user.points -= gift.points
           user.update()
